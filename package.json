@@ -1,0 +1,25 @@
+{
+  "name": "jquery.charts",
+  "version": "1.0.0",
+  "description": "This is a chart plugin",
+  "dependencies": {
+    "jquery": "^3.1.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ShujiaWu/jquery.charts.git"
+  },
+  "keywords": [
+    "chart"
+  ],
+  "author": "Yun",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ShujiaWu/jquery.charts/issues"
+  },
+  "homepage": "https://github.com/ShujiaWu/jquery.charts#readme"
+}
