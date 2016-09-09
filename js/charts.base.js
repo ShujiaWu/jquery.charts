@@ -184,7 +184,17 @@ window.ChartUtils = {
             context.width = width || 1;
             context.stroke();
         }
-
-
+    },
+    /**
+     * 获取文字的宽度
+     * @param context       上下文
+     * @param text          要测量的文本
+     * @param fontSize      文本大小
+     * @param fontFamily    文本字体
+     * @returns {Number}    文本的宽度
+     */
+    getTextWidth:function (context, text, fontSize, fontFamily) {
+        context.font = (fontSize || 12) + 'px ' + (fontFamily || 'Microsoft YaHei');
+        return context.measureText(text).width;
     }
 };

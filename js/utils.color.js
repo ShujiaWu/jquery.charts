@@ -3,7 +3,7 @@
  * Created by Yun on 2016/9/7.
  * E-mail：wushujia@vip.qq.com
  */
-Window.ColorUtils = {
+window.ColorUtils = {
     /**
      * 16进制颜色转成rgba数组
      * @param color 颜色字符串，支持RGBA和16进制
