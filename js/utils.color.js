@@ -10,12 +10,12 @@ window.ColorUtils = {
      * @returns {*[]}
      */
     colorToRgbaArray: function (color) {
-        var R =0,
-            G =0,
-            B =0,
-            A =0;
+        var R = 0,
+            G = 0,
+            B = 0,
+            A = 0;
         //16进制
-        if(/^#([0-9a-zA-z]{3}|[0-9a-zA-z]{6})$/.test(color)){
+        if (/^#([0-9a-zA-z]{3}|[0-9a-zA-z]{6})$/.test(color)) {
             var value = parseInt(RegExp.$1, 16);
             A = 1;
             R = value >> 16 & 0xff;
@@ -23,7 +23,7 @@ window.ColorUtils = {
             B = value & 0xff;
         }
         //RGB或RGBA
-        if(/^rgba?\((\d+),(\d+),(\d+),?(\d+)?\)$/.test(color)){
+        if (/^rgba?\((\d+),(\d+),(\d+),?(\d+)?\)$/.test(color)) {
             R = parseInt(RegExp.$1);
             G = parseInt(RegExp.$2);
             B = parseInt(RegExp.$3);
@@ -47,7 +47,8 @@ window.ColorUtils = {
         var colorOffset = cStopPosition - cStopArea;    //区间偏移量
 
         if (colorOffset == 0) {                         //区间点上
-            return this.colorToRgbaArray(cArray[cStopArea]);
+            var rgbaArray = this.colorToRgbaArray(cArray[cStopArea]);
+            return 'rgba(' + rgbaArray[0] + ',' + rgbaArray[1] + ',' + rgbaArray[2] + ',' + rgbaArray[3] + ')';
         }
 
         var c1Array = this.colorToRgbaArray(cArray[cStopArea]);        //区间的节点
@@ -73,7 +74,7 @@ window.ColorUtils = {
     /**
      * 随机产生一个颜色（RGB）
      */
-    randomColor:function () {
+    randomColor: function () {
         return 'rgb(' + parseInt(255 * Math.random()) + ',' + parseInt(255 * Math.random()) + ',' + parseInt(255 * Math.random()) + ')';
     }
 };

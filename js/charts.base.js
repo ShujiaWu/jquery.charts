@@ -124,15 +124,14 @@ window.ChartUtils = {
             context.lineTo(points[i].x, points[i].y);
         }
         context.closePath();
-        if (type){
+        if (type) {
             context.fillStyle = style;
             context.fill();
-        }else{
+        } else {
             context.strokeStyle = style;
             context.lineWidth = width || 1;
             context.stroke();
         }
-
     },
     /**
      * 绘制文字
@@ -146,12 +145,61 @@ window.ChartUtils = {
      * @param align         水平位置
      * @param vertical      垂直位置
      */
-    drawText: function (context, text, x, y, color, fontSize, fontFamily,  align, vertical) {
+    drawText: function (context, text, x, y, color, fontSize, fontFamily, align, vertical) {
         context.font = (fontSize || 12) + 'px ' + (fontFamily || 'Microsoft YaHei');
         context.fillStyle = color;
         context.textAlign = align || 'center';
         context.textBaseline = vertical || 'middle';
         context.fillText(text, x || 0, y || 0);
+    },
+
+    /**
+     * 绘制多行文字
+     * @param context       上下文
+     * @param text          文字
+     * @param x             x坐标
+     * @param y             y坐标
+     * @param fontSize      字体
+     * @param fontFamily    字体
+     * @param color         颜色
+     * @param align         水平位置
+     * @param vertical      垂直位置
+     * @param boxWidth      文本区域的宽度
+     */
+    drawMultiText: function (context, text, x, y, color, fontSize, fontFamily, align, vertical, boxWidth) {
+        //文字的总长度
+        var textWidth = this.getTextWidth(context, text, fontSize, fontFamily);
+        //计算每一行的字符长度
+        var sizePerLine = Math.floor(text.length * boxWidth / textWidth);
+        //计算文字行数
+        var textLine = Math.ceil(text.length / sizePerLine);
+        //绘出每一行文字
+        for (var i = 0; i < textLine; i++) {
+            var text_new = text.substr(sizePerLine * i, sizePerLine);
+            window.ChartUtils.drawText(context, text_new,
+                x,
+                y + i * fontSize * 1.2,
+                color, fontSize, fontFamily, align, vertical);
+        }
+    },
+    /**
+     *
+     * @param context       上下文
+     * @param text          文本
+     * @param fontSize      文字大小
+     * @param fontFamily    字体
+     * @param boxWidth      盒子宽度
+     * @returns {number}    高度
+     */
+    getMultiTextHeight: function (context, text, fontSize, fontFamily, boxWidth) {
+        //文字的总长度
+        var textWidth = this.getTextWidth(context, text, fontSize, fontFamily);
+        //计算每一行的字符长度
+        var sizePerLine = Math.floor(text.length * boxWidth / textWidth);
+        //计算文字行数
+        var textLine = Math.ceil(text.length / sizePerLine);
+        //返回文字的高度
+        return fontSize * textLine * 1.2;
     },
 
     /**
@@ -176,10 +224,10 @@ window.ChartUtils = {
         context.arcTo(x, y + h, x, y, r);
         context.arcTo(x, y, x + w, y, r);
         context.closePath();
-        if(type){
+        if (type) {
             context.fillStyle = style;
             context.fill();
-        }else{
+        } else {
             context.strokeStyle = style;
             context.width = width || 1;
             context.stroke();
@@ -193,7 +241,7 @@ window.ChartUtils = {
      * @param fontFamily    文本字体
      * @returns {Number}    文本的宽度
      */
-    getTextWidth:function (context, text, fontSize, fontFamily) {
+    getTextWidth: function (context, text, fontSize, fontFamily) {
         context.font = (fontSize || 12) + 'px ' + (fontFamily || 'Microsoft YaHei');
         return context.measureText(text).width;
     }
