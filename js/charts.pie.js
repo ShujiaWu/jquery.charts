@@ -24,6 +24,7 @@
             startAngle: 1,     //起始角度
             isAnimation: true,  //是否启用动画
             animationTime: 3,   //动画时间
+            defaultColor:'#eff5f6',             //默认颜色
             events: {                           //绘图事件
                 start: function (options) {            //开始绘图
                 },
@@ -71,11 +72,6 @@
 
             var sum = 0;
             var i;
-
-            if (options.data.length == 0) {
-                options.data.push(100);
-                options.proportion.isShow = false;
-            }
             //计算数据总和
             for (i = 0; i < options.data.length; i++) {
                 sum += options.data[i];
@@ -149,11 +145,24 @@
             var cValue = options.isAnimation ? 0 : 1;
             var tValue = 1;
 
+            if (options.data.length == 0) {
+                options.colors.length = 0;
+                options.data.push(100);
+                options.proportion.isShow = false;
+                options.colors.push(options.defaultColor);
+            }
+
             //当颜色数量小于数据数量时，添加缺少的颜色
             if (options.colors.length < options.data.length) {
                 for (var i = options.colors.length; i < options.data.length; i++) {
                     options.colors.push(window.ColorUtils.randomColor());
                 }
+            }
+
+            if (/^0+$/.test(options.data.join(''))) {
+                options.data.push(100);
+                options.proportion.isShow = false;
+                options.colors.push(options.defaultColor);
             }
 
             var timer = setInterval(function () {
