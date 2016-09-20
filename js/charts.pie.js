@@ -24,7 +24,8 @@
             startAngle: 1,     //起始角度
             isAnimation: true,  //是否启用动画
             animationTime: 3,   //动画时间
-            defaultColor:'#eff5f6',             //默认颜色
+            defaultColor: '#eff5f6',             //默认颜色
+            isDebug: false,                      //是否启用调试模式
             events: {                           //绘图事件
                 start: function (options) {            //开始绘图
                 },
@@ -57,8 +58,6 @@
         };
 
         options = $.extend(true, options, params);
-
-        console.log(options);
 
         /**
          * 绘制数据区域
@@ -198,6 +197,9 @@
          * 绘制图形
          */
         exports.draw = function () {
+            if (options.isDebug) {
+                console.log(options);
+            }
             deviceRatio = window.devicePixelRatio;  //获取屏幕像素比
             context = element[0].getContext('2d');
 
