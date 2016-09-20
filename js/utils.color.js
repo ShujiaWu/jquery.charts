@@ -28,6 +28,8 @@ window.ColorUtils = {
             G = parseInt(RegExp.$2);
             B = parseInt(RegExp.$3);
             A = parseFloat(RegExp.$4);
+            A = isNaN(A) ? 1 : A;
+
         }
         return [R, G, B, A];
     },
