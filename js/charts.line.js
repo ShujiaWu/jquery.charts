@@ -179,7 +179,7 @@
             }, {
                 x: bottom_right.x,
                 y: bottom_right.y
-            }], options.axis.lineColor, options.axis.lineWidth);
+            }], options.axis.lineColor, options.axis.lineWidth * deviceRatio);
 
             //绘制与Y轴平行的线
             for (i = 1; i < options.axis.x.length - 1; i++) {
@@ -189,7 +189,7 @@
                 }, {
                     x: bottom_left.x + axisOffsetX * i,
                     y: bottom_left.y
-                }], options.axis.lineColor, options.axis.lineWidth);
+                }], options.axis.lineColor, options.axis.lineWidth * deviceRatio);
             }
 
             //绘制X轴上点的文本
@@ -208,7 +208,7 @@
                     y: bottom_left.y - axisOffsetY * i
                 }];
                 //线
-                window.ChartUtils.drawLine(context, points, options.axis.lineColor, options.lineWidth);
+                window.ChartUtils.drawLine(context, points, options.axis.lineColor, options.lineWidth * deviceRatio);
                 //文字
                 window.ChartUtils.drawText(context, valueY[i],
                     bottom_left.x - 5 * deviceRatio,
@@ -247,7 +247,7 @@
                 }
 
                 //绘制线条
-                window.ChartUtils.drawLine(context, points, options.colors[i], options.lineWidth);
+                window.ChartUtils.drawLine(context, points, options.colors[i], options.lineWidth * deviceRatio);
 
                 if (options.isArea[i]) {
                     points.unshift({
@@ -258,7 +258,7 @@
                         x: points[points.length - 1].x,
                         y: bottom_right.y
                     });
-                    window.ChartUtils.drawPolygon(context, points, window.ColorUtils.opacityColor(options.colors[i], 0.3), options.lineWidth);
+                    window.ChartUtils.drawPolygon(context, points, window.ColorUtils.opacityColor(options.colors[i], 0.3), options.lineWidth * deviceRatio);
                 }
             }
         }
