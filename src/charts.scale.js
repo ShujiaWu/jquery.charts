@@ -4,7 +4,7 @@
  * E-mail：wushujia@vip.qq.com
  */
 (function ($) {
-    $.fn.Line = function (params) {
+    $.fn.Scale = function (params) {
         var exports = {};       //函数返回对象
         var element = $(this);  //绘图元素
         var context = null;     //绘图上下文
@@ -201,7 +201,7 @@
             currentValueText = options.cursor.textStart + currentValueText + options.cursor.textEnd;
 
             var cursorTextWidth = window.ChartUtils.getTextWidth(context, currentValueText, options.cursor.fontSize * deviceRatio, options.cursor.fontFamily);
-            var cursorTextHeight = options.cursor.fontSize;
+            var cursorTextHeight = options.cursor.fontSize * deviceRatio;
 
             var cursorRadius = cursorTextHeight / 2;
 

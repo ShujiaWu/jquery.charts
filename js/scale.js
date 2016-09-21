@@ -8,7 +8,7 @@ var canvas_0 = $('#canvas_0');
 canvas_0.css({
     width: 300,
     height: 120
-}).Line({
+}).Scale({
     type: 1,                     //类型：【0】顶部 【1】居中
     min: 0,
     max: 100,
