@@ -18,7 +18,7 @@ canvas_0.css({
     animationTime: 5,   //动画时间
     lineWidth: 1,       //折线宽度
     isDebug: false,     //是否调试模式
-    isPercent: true,
+    isPercent: true,    //是否显示百分比
     events: {                                           //绘图事件
         start: function (options) {                     //开始绘图
         },
@@ -39,6 +39,5 @@ canvas_0.css({
         minY: 0,                                        //Y轴最小值
         maxY: 10,                                       //Y轴最大值
         isShowMinY: true
-
     }
 }).draw();
