@@ -96,6 +96,9 @@
             return parseInt(scope * Math.sqrt(Math.pow(options.beta, 2) + 1));
         }
 
+        /**
+         * 绘图前计算
+         */
         function calculate() {
             var i;
             //计算零点坐标
@@ -179,7 +182,11 @@
 
         }
 
-
+        /**
+         * 绘制散点
+         * @param cValue
+         * @param tValue
+         */
         function drawTargetPoint(cValue, tValue) {
             //进度
             var percent = cValue / tValue;
@@ -194,6 +201,11 @@
             }
         }
 
+        /**
+         * 绘制回归直线
+         * @param cValue
+         * @param tValue
+         */
         function drawTargetLine(cValue, tValue) {
             //进度
             var percent = cValue / tValue;
@@ -209,6 +221,9 @@
             ], options.line.base.color, options.line.base.width *deviceRatio);
         }
 
+        /**
+         * 绘制α值和β值
+         */
         function drawValueText() {
             //绘制αβ线
             if (options.valueText.type == 0 || options.valueText.type == 2) {
