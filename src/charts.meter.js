@@ -131,61 +131,100 @@
             var r3;
             //角度
             var angle;
+
+            //绘制进度刻度
+            var percent;
             if (current != undefined) {
                 //绘制进度刻度
-                var percent = current / options.max;
-                for (i = 0; i / 51 < percent; i++) {
-                    //刻度的开始半径
-                    r1 = options.radius + (i % 5 == 0 ? options.tickText.spacing + options.tick.length * deviceRatio : options.tickText.spacing + options.tick.length * deviceRatio - 2 * deviceRatio );
-                    //刻度的结束半径
-                    r2 = options.radius + (i % 5 == 0 ? options.tickText.spacing : options.tickText.spacing + 2 * deviceRatio);
-                    //刻度文字的半径
-                    r3 = (options.radius + r2) / 2;
-                    //角度
-                    angle = options.startAngle + (options.endAngle - options.startAngle) / 50 * i;
-                    window.ChartUtils.drawLine(context, [{
-                            x: getX(r1, angle),
-                            y: getY(r1, angle)
-                        }, {
-                            x: getX(r2, angle),
-                            y: getY(r2, angle)
-                        }],
-                        options.tick.type == 0 ? window.ColorUtils.getColorStop(0, 51, i, options.colors) : options.tick.targetColor,
-                        options.tick.width * deviceRatio);
-                }
-            } else {
-                //绘制基础刻度
-                for (i = 0; i < 51; i++) {
-                    //刻度的开始半径
-                    r1 = options.radius + (i % 5 == 0 ? options.tickText.spacing + options.tick.length * deviceRatio : options.tickText.spacing + options.tick.length * deviceRatio - 2 * deviceRatio );
-                    //刻度的结束半径
-                    r2 = options.radius + (i % 5 == 0 ? options.tickText.spacing : options.tickText.spacing + 2 * deviceRatio);
-                    //刻度文字的半径
-                    r3 = (options.radius + r2) / 2;
-                    //角度
-                    angle = options.startAngle + (options.endAngle - options.startAngle) / 50 * i;
-                    window.ChartUtils.drawLine(context, [{
-                            x: getX(r1, angle),
-                            y: getY(r1, angle)
-                        }, {
-                            x: getX(r2, angle),
-                            y: getY(r2, angle)
-                        }],
-                        i % 5 == 0 ? options.tick.defaultColor1 : options.tick.defaultColor0,
-                        options.tick.width);
-                    if (i % 10 == 0) {
-                        window.ChartUtils.drawText(
-                            context,
-                            options.max / 50 * i,
-                            getX(r3, angle),
-                            getY(r3, angle),
-                            options.tickText.color,
-                            options.tickText.fontSize * deviceRatio,
-                            options.tickText.fontFamily,
-                            'center', 'middle');
-                    }
+                percent = current / options.max;
+            }
+            for (i = 0; i < 51; i++) {
+                //刻度的开始半径
+                r1 = options.radius + (i % 5 == 0 ? options.tickText.spacing + options.tick.length * deviceRatio : options.tickText.spacing + options.tick.length * deviceRatio - 2 * deviceRatio );
+                //刻度的结束半径
+                r2 = options.radius + (i % 5 == 0 ? options.tickText.spacing : options.tickText.spacing + 2 * deviceRatio);
+                //刻度文字的半径
+                r3 = (options.radius + r2) / 2;
+                //角度
+                angle = options.startAngle + (options.endAngle - options.startAngle) / 50 * i;
+                window.ChartUtils.drawLine(context, [{
+                        x: getX(r1, angle),
+                        y: getY(r1, angle)
+                    }, {
+                        x: getX(r2, angle),
+                        y: getY(r2, angle)
+                    }],
+                    i / 51 < percent ? (options.tick.type == 0 ? window.ColorUtils.getColorStop(0, 51, i, options.colors) : options.tick.targetColor):(i % 5 == 0 ? options.tick.defaultColor1 : options.tick.defaultColor0),
+                    options.tick.width);
+                if (i % 10 == 0) {
+                    window.ChartUtils.drawText(
+                        context,
+                        options.max / 50 * i,
+                        getX(r3, angle),
+                        getY(r3, angle),
+                        options.tickText.color,
+                        options.tickText.fontSize * deviceRatio,
+                        options.tickText.fontFamily,
+                        'center', 'middle');
                 }
             }
+
+
+            // if (current != undefined) {
+            //     //绘制进度刻度
+            //     var percent = current / options.max;
+            //     for (i = 0; i / 51 < percent; i++) {
+            //         //刻度的开始半径
+            //         r1 = options.radius + (i % 5 == 0 ? options.tickText.spacing + options.tick.length * deviceRatio : options.tickText.spacing + options.tick.length * deviceRatio - 2 * deviceRatio );
+            //         //刻度的结束半径
+            //         r2 = options.radius + (i % 5 == 0 ? options.tickText.spacing : options.tickText.spacing + 2 * deviceRatio);
+            //         //刻度文字的半径
+            //         r3 = (options.radius + r2) / 2;
+            //         //角度
+            //         angle = options.startAngle + (options.endAngle - options.startAngle) / 50 * i;
+            //         window.ChartUtils.drawLine(context, [{
+            //                 x: getX(r1, angle),
+            //                 y: getY(r1, angle)
+            //             }, {
+            //                 x: getX(r2, angle),
+            //                 y: getY(r2, angle)
+            //             }],
+            //             options.tick.type == 0 ? window.ColorUtils.getColorStop(0, 51, i, options.colors) : options.tick.targetColor,
+            //             options.tick.width * deviceRatio);
+            //     }
+            // } else {
+            //     //绘制基础刻度
+            //     for (i = 0; i < 51; i++) {
+            //         //刻度的开始半径
+            //         r1 = options.radius + (i % 5 == 0 ? options.tickText.spacing + options.tick.length * deviceRatio : options.tickText.spacing + options.tick.length * deviceRatio - 2 * deviceRatio );
+            //         //刻度的结束半径
+            //         r2 = options.radius + (i % 5 == 0 ? options.tickText.spacing : options.tickText.spacing + 2 * deviceRatio);
+            //         //刻度文字的半径
+            //         r3 = (options.radius + r2) / 2;
+            //         //角度
+            //         angle = options.startAngle + (options.endAngle - options.startAngle) / 50 * i;
+            //         window.ChartUtils.drawLine(context, [{
+            //                 x: getX(r1, angle),
+            //                 y: getY(r1, angle)
+            //             }, {
+            //                 x: getX(r2, angle),
+            //                 y: getY(r2, angle)
+            //             }],
+            //             i % 5 == 0 ? options.tick.defaultColor1 : options.tick.defaultColor0,
+            //             options.tick.width);
+            //         if (i % 10 == 0) {
+            //             window.ChartUtils.drawText(
+            //                 context,
+            //                 options.max / 50 * i,
+            //                 getX(r3, angle),
+            //                 getY(r3, angle),
+            //                 options.tickText.color,
+            //                 options.tickText.fontSize * deviceRatio,
+            //                 options.tickText.fontFamily,
+            //                 'center', 'middle');
+            //         }
+            //     }
+            // }
 
         }
 
