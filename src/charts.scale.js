@@ -196,8 +196,7 @@
                 y: y_bottom
             }], options.cursor.triangleColor, true);
 
-            var currentValueText = parseFloat((options.tick.tickCount * percent).toFixed(2));
-            currentValueText = options.tick.valueType == 0 ? currentValueText : currentValueText * 100 + '%';
+            var currentValueText = options.tick.valueType == 0 ? parseFloat(cValue.toFixed(2)) : parseFloat((cValue * 100).toFixed(2)) + '%';
             currentValueText = options.cursor.textStart + currentValueText + options.cursor.textEnd;
 
             var cursorTextWidth = window.ChartUtils.getTextWidth(context, currentValueText, options.cursor.fontSize * deviceRatio, options.cursor.fontFamily);
@@ -283,7 +282,6 @@
                 context.fillRect(0, 0, eWidth, eHeight);
 
                 cValue = cValue + valueStep > tValue ? tValue : cValue + valueStep;
-
 
                 //绘制基础区域
                 drawBaseArea();
