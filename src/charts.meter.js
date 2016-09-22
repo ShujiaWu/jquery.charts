@@ -155,7 +155,7 @@
                         y: getY(r2, angle)
                     }],
                     i / 51 < percent ? (options.tick.type == 0 ? window.ColorUtils.getColorStop(0, 51, i, options.colors) : options.tick.targetColor):(i % 5 == 0 ? options.tick.defaultColor1 : options.tick.defaultColor0),
-                    options.tick.width);
+                    options.tick.width * deviceRatio);
                 if (i % 10 == 0) {
                     window.ChartUtils.drawText(
                         context,
