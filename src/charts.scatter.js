@@ -244,13 +244,13 @@
             var text = '';
             switch (options.valueText.type) {
                 case 0:
-                    text = 'α = ' + options.alpha * 100 + '%';
+                    text = 'α = ' + options.alpha;
                     break;
                 case 1:
                     text = 'β = ' + options.beta;
                     break;
                 case 2:
-                    text = 'α = ' + options.alpha * 100 + '% ' + 'β = ' + options.beta;
+                    text = 'α = ' + options.alpha + ' ' + 'β = ' + options.beta;
             }
             if (eHeight * 3 / 4 * options.alpha < options.valueText.fontSize * deviceRatio) {
                 textPosY = zeroPoint.y + (options.valueText.fontSize * deviceRatio / 2)
