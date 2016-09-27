@@ -406,6 +406,9 @@
                 options.events.start();
             }
             //特殊情况
+            if (options.target > options.max){
+                options.target = options.max;
+            }
             if (options.target < options.min) {
                 if (options.events && options.events.drawing) {
                     options.events.drawing();
