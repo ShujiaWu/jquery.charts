@@ -222,7 +222,7 @@
 
             options.spacing *= deviceRatio;
 
-            var textWidth = (options.spacing / 2 + options.proportion.lineLength) + window.ChartUtils.getTextWidth(context, '100%', options.proportion.fontSize * deviceRatio, options.proportion.fontFamily);
+            var textWidth = (options.spacing / 2 + options.proportion.lineLength) + window.ChartUtils.getTextWidth(context, '99.99%', options.proportion.fontSize * deviceRatio, options.proportion.fontFamily);
 
             options.radius = options.proportion.isShow ?
                 (centerPoint.x < centerPoint.y ? centerPoint.x - textWidth : centerPoint.y - textWidth) :
