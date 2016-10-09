@@ -122,7 +122,7 @@
             }
 
             //计算αβ线的点坐标
-            var x1 = Math.abs(getXOffset(eHeight * 3 / 4) / 2);
+            var x1 = options.beta > 0 ? Math.abs(getXOffset(eHeight * 3 / 4) / 2) : Math.abs(getXOffset(eHeight / 4) / 2);
             if (x1 < 5) {
                 x1 = getXOffset(eHeight * 3 / 4);
             }
@@ -251,7 +251,7 @@
                     text = 'α = ' + options.alpha + ' ' + 'β = ' + options.beta;
             }
             if (eHeight * 3 / 4 * options.alpha < options.valueText.fontSize * deviceRatio) {
-                textPosY = zeroPoint.y + (options.valueText.fontSize * deviceRatio / 2)
+                textPosY = zeroPoint.y +  (options.beta < 0 ? -(options.valueText.fontSize * deviceRatio) : (options.valueText.fontSize * deviceRatio))
             }
             window.ChartUtils.drawText(context, text,
                 zeroPoint.x + 10 * deviceRatio,
