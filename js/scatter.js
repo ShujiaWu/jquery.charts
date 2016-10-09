@@ -10,7 +10,7 @@ canvas_0.css({
     height: 300
 }).Scatter({
     alpha: 0.3,                 //α值
-    beta: 1,                    //β值
+    beta: -1,                    //β值
     background: 'transparent',  //背景颜色
     frames: 60,                 //帧数
     isAnimation: true,          //是否启用动画

@@ -122,7 +122,7 @@
             }
 
             //计算αβ线的点坐标
-            var x1 = getXOffset(eHeight * 3 / 4) / 2;
+            var x1 = Math.abs(getXOffset(eHeight * 3 / 4) / 2);
             if (x1 < 5) {
                 x1 = getXOffset(eHeight * 3 / 4);
             }
@@ -151,9 +151,7 @@
                     x: zeroPoint.x + x3,
                     y: zeroPoint.y - y3
                 }
-            }
-
-
+            };
         }
 
         /**
