@@ -54,16 +54,18 @@
                 }
             },
             axis: {                                             //坐标轴
-                x: [],                                           //X轴显示的数据
-                y: 4,                                            //Y轴显示的数据
+                x: [],                                          //X轴显示的数据
+                y: 4,                                           //Y轴显示的数据
                 fontSize: 10,                                   //坐标轴文字大小
                 fontFamily: 'Microsoft YaHei',                  //坐标轴字体
                 color: '#666666',                               //坐标轴文字颜色
-                lineColor: '#EEEEEE',                            //坐标轴线条颜色
-                lineWidth: 1,                                    //坐标轴线条宽度
-                manualY: true,                                   //是否手动控制Y轴的文字
-                minY: 0,                                         //Y轴最小值
-                maxY: 1000                                       //Y轴最大值
+                lineColor: '#EEEEEE',                           //坐标轴线条颜色
+                lineWidth: 1,                                   //坐标轴线条宽度
+                isPercent: false,                                //是否是百分比模式
+                precision: 2,                                   //精度
+                manualY: true,                                  //是否手动控制Y轴的文字
+                minY: 0,                                        //Y轴最小值
+                maxY: 100                                      //Y轴最大值
             }
         };
 
@@ -111,7 +113,11 @@
             if (options.axis.manualY) {
                 diffValueY = (maxValue - minValue) / (options.axis.y + 1);
                 for (i = 0; i < options.axis.y + 1; i++) {
-                    value = parseFloat((minValue + diffValueY * i).toFixed(3));
+                    if (options.axis.isPercent) {
+                        value = parseFloat((minValue + diffValueY * i).toFixed(options.axis.precision));
+                    } else {
+                        value = parseFloat(((minValue + diffValueY * i) * 100).toFixed(options.axis.precision)) + '%';
+                    }
                     valueY.push(value);
                     textWidth = window.ChartUtils.getTextWidth(context, value + '', options.axis.fontSize * deviceRatio, options.axis.fontFamily);
                     valueYMaxWidth = textWidth > valueYMaxWidth ? textWidth : valueYMaxWidth;
@@ -119,7 +125,11 @@
             } else {
                 diffValueY = (maxValue - minValue) / (options.axis.y - 1);
                 for (i = 0; i < options.axis.y + 2; i++) {
-                    value = parseFloat((minValue + diffValueY * (i - 1)).toFixed(3));
+                    if (options.axis.isPercent) {
+                        value = parseFloat(((minValue + diffValueY * (i - 1)) * 100).toFixed(options.axis.precision)) + '%';
+                    } else {
+                        value = parseFloat((minValue + diffValueY * (i - 1)).toFixed(options.axis.precision));
+                    }
                     valueY.push(value);
                     textWidth = window.ChartUtils.getTextWidth(context, value + '', options.axis.fontSize * deviceRatio, options.axis.fontFamily);
                     valueYMaxWidth = textWidth > valueYMaxWidth ? textWidth : valueYMaxWidth;
