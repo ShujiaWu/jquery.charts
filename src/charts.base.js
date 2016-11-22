@@ -108,6 +108,37 @@ window.ChartUtils = {
         context.stroke();
 
     },
+
+    drawDashedLine: function (context, points, style, length, width) {
+        context.beginPath();
+        //绘制线条
+        context.moveTo(points[0].x, points[0].y);
+        for (var i = 1; i < points.length; i++) {
+            var dx = points[i].x - points[i - 1].x;
+            var dy = points[i].y - points[i - 1].y;
+            var offset = Math.sqrt(dx * dx + dy * dy);
+            length = length > offset ? offset : length;
+            var interval = offset / length;
+
+            var deltaX = dx * length / offset;
+            var deltaY = dy * length / offset;
+
+            for(var j = 0; j < interval; j++){
+                if (j % 2){
+                    context.lineTo(points[i-1].x + deltaX * j, points[i-1].y - deltaY * j);
+                }else{
+                    context.moveTo(points[i-1].x + deltaX * j, points[i-1].y - deltaY * j);
+                }
+            }
+            // context.lineTo(points[i].x, points[i].y);
+
+        }
+
+        context.strokeStyle = style;
+        context.lineWidth = width || 1;
+        context.stroke();
+
+    },
     /**
      * 画多边形
      * @param context   上下文
