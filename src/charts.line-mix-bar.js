@@ -85,8 +85,10 @@
                 gap: 2,
                 max: 1,
                 min: 0,
+                defaultValue: '',
                 width: undefined,
-                type: 0               //【0】分开展示 【1】合并展示
+                type: 0,               //【0】分开展示 【1】合并展示
+                defaultColor:'#CCCCCC'
             },
             line: {
                 width: 2,
@@ -94,6 +96,7 @@
                 areaType: 1,          //【0】不显示【1】虚线不覆盖【2】虚线覆盖
                 max: 100,
                 min: 0,
+                defaultValue: '',
                 point: {
                     radius: 3,
                     width: 1,
@@ -114,7 +117,7 @@
         function calculate() {
             var i;
             var j;
-            if(!options.axis.x.length){
+            if (!options.axis.x.length) {
                 console.error('坐标轴数据不能为空！');
                 return false;
             }
@@ -153,7 +156,7 @@
                     }]);
             }
 
-            if(options.data.bar.length){
+            if (options.data.bar.length) {
                 //计算柱状图的宽度
                 barWidth = (offsetWidth - (barWidth * options.axis.x.length - 1) ) / (options.bar.type == 1 ? 3 : (options.data.bar[0].length + 1));
                 if (options.isDebug) {
@@ -177,15 +180,18 @@
                                 if (!options.data.bar[i][j]) {
                                     continue;
                                 }
+                                if (options.data.bar[i][j] > options.bar.max || options.data.bar[i][j] < options.bar.min) {
+                                    console.warn('柱状图数值超出范围！[' + i + '][' + j + ']');
+                                }
                                 tmp.push([[{
                                     x: barStartX + offsetWidth * i + (options.bar.gap * deviceRatio + barWidth) * j,
                                     y: bottom_left.y
                                 }, {
                                     x: barStartX + offsetWidth * i + (options.bar.gap * deviceRatio + barWidth) * j,
-                                    y: bottom_left.y - (bottom_left.y - top_left.y) * options.data.bar[i][j] / diff
+                                    y: (options.data.bar[i][j] > options.bar.max || options.data.bar[i][j] < options.bar.min) ? bottom_left.y : bottom_left.y - (bottom_left.y - top_left.y) * options.data.bar[i][j] / diff
                                 }, {
                                     x: barStartX + offsetWidth * i + (options.bar.gap * deviceRatio + barWidth) * j + barWidth,
-                                    y: bottom_left.y - (bottom_left.y - top_left.y) * options.data.bar[i][j] / diff
+                                    y: (options.data.bar[i][j] > options.bar.max || options.data.bar[i][j] < options.bar.min) ? bottom_left.y : bottom_left.y - (bottom_left.y - top_left.y) * options.data.bar[i][j] / diff
                                 }, {
                                     x: barStartX + offsetWidth * i + (options.bar.gap * deviceRatio + barWidth) * j + barWidth,
                                     y: bottom_left.y
@@ -205,11 +211,20 @@
                             tmp = [];
                             var sum = 0;
                             for (j = 0; j < options.data.bar[i].length; j++) {
+                                if (options.data.bar[i][j] > options.bar.max || options.data.bar[i][j] < options.bar.min) {
+                                    console.warn('柱状图数值超出范围！[' + i + '][' + j + ']');
+                                }
                                 sum += options.data.bar[i][j];
                             }
+                            if (sum == 0) {
+                                options.data.bar[i].push(options.bar.max);
+                                sum = options.bar.max;
+                                if (options.data.bar[i].length > options.colors.bar.length) {
+                                    //补充默认颜色
+                                    options.colors.bar.push(options.bar.defaultColor);
+                                }
+                            }
                             for (j = 0; j < options.data.bar[i].length; j++) {
-
-
                                 barStartY = bottom_left.y;
                                 if (j > 0) {
                                     barStartY = tmp[0][j - 1][1].y;
@@ -220,10 +235,14 @@
                                     y: barStartY
                                 }, {
                                     x: barStartX + offsetWidth * i,
-                                    y: barStartY - (bottom_left.y - top_left.y) * options.data.bar[i][j] / sum / diff
+                                    y: barStartY - (bottom_left.y - top_left.y) *
+                                    ((options.data.bar[i][j] > options.bar.max || options.data.bar[i][j] < options.bar.min) ?
+                                        options.bar.min : options.data.bar[i][j]) / sum / diff
                                 }, {
                                     x: barStartX + offsetWidth * i + barWidth,
-                                    y: barStartY - (bottom_left.y - top_left.y) * options.data.bar[i][j] / sum / diff
+                                    y: barStartY - (bottom_left.y - top_left.y) *
+                                    ((options.data.bar[i][j] > options.bar.max || options.data.bar[i][j] < options.bar.min) ?
+                                        options.bar.min : options.data.bar[i][j]) / sum / diff
                                 }, {
                                     x: barStartX + offsetWidth * i + barWidth,
                                     y: barStartY
@@ -243,7 +262,7 @@
                 for (j = 0; j < options.data.line[i].length; j++) {
                     tmp.push({
                         x: vLine[j][0].x,
-                        y: bottom_left.y - (bottom_left.y - top_left.y) * options.data.line[i][j] / diff
+                        y: (options.data.line[i][j] < options.line.min || options.data.line[i][j] > options.line.max) ? bottom_left.y : bottom_left.y - (bottom_left.y - top_left.y) * options.data.line[i][j] / diff
                     })
                 }
                 lines.push(tmp);
@@ -259,7 +278,6 @@
          */
         function drawBaseArea() {
             var i;
-            var j;
             //辅助绘图的 辅助线
             if (options.isDebug) {
                 window.ChartUtils.drawPolygon(context, [
@@ -349,7 +367,7 @@
                         break;
                     case 2:
                         //形成需要绘制区域的点坐标
-                        (lineAreas=[]).push(line.concat());
+                        (lineAreas = []).push(line.concat());
                         lineAreas[i].unshift({
                             x: 0,
                             y: line[0].y
@@ -420,18 +438,27 @@
             //生成子元素
             var child = '';
             for (i = 0; i < options.legends.top.length; i++) {
-                if(options.data.top[i]){
-                    child += '<li><span class="icon" style="background:' + options.colors.top[i] + '"></span><span>' + options.legends.top[i] + '：' + options.data.top[i][pos] + (options.units.top[i] || '') + '</span></li>';
+                if (options.data.top[i]) {
+                    child += '<li><span class="icon" style="background:' + options.colors.top[i] + '"></span><span>'
+                        + options.legends.top[i] + '：'
+                        + options.data.top[i][pos]
+                        + (options.units.top[i] || '') + '</span></li>';
                 }
             }
             for (i = 0; i < options.legends.line.length; i++) {
-                if(options.data.line[i]) {
-                    child += '<li><span class="icon" style="background:' + options.colors.line[i] + '"></span><span>' + options.legends.line[i] + '：' + options.data.line[i][pos] + (options.units.line[i] || '') + '</span></li>';
+                if (options.data.line[i]) {
+                    child += '<li><span class="icon" style="background:' + options.colors.line[i] + '"></span><span>'
+                        + options.legends.line[i] + '：'
+                        + ((options.data.line[i][pos] < options.line.min || options.data.line[i][pos] > options.line.max) ? options.line.defaultValue : options.data.line[i][pos] + (options.units.line[i] || ''))
+                        + '</span></li>';
                 }
             }
             for (i = 0; i < options.legends.bar.length; i++) {
-                if(options.data.bar[i]){
-                    child += '<li><span class="icon" style="background:' + options.colors.bar[i] + '"></span><span>' + options.legends.bar[i] + '：' + options.data.bar[pos][i] + (options.units.bar[i] || '') + '</span></li>';
+                if (options.data.bar[i]) {
+                    child += '<li><span class="icon" style="background:' + options.colors.bar[i] + '"></span><span>'
+                        + options.legends.bar[i] + '：'
+                        + ((options.data.bar[pos][i] < options.bar.min || options.data.bar[pos][i] > options.bar.max) ? options.bar.defaultValue : options.data.bar[pos][i] + (options.units.bar[i] || ''))
+                        + '</span></li>';
                 }
             }
             //添加
@@ -439,9 +466,9 @@
             $floatMsg.find('ul').empty().append(child);
             //计算浮动信息的出现的位置
             var top;
-            if(!lines[0]){
+            if (!lines[0]) {
                 top = eHeight / 2 / deviceRatio;
-            }else{
+            } else {
                 top = lines[0][pos].y / deviceRatio - floatMsgMargin;
             }
             var left = vLine[pos][0].x / deviceRatio + floatMsgMargin;
@@ -474,7 +501,7 @@
          */
         function drawing() {
             //计算数值
-            if( calculate()&& drawBaseArea()&& drawDataArea()){
+            if (calculate() && drawBaseArea() && drawDataArea()) {
                 element.on('click', function (event) {
                     //计算当前点击所在的区间
                     var pos = parseInt(event.offsetX * deviceRatio / perAreaWidth);
@@ -543,7 +570,7 @@
                 );
             }
             $floatMsg = $(
-                '<div class="line-mix-bar-float-msg"><div class="title">10月10日</div><ul></ul></div>'
+                '<div class="line-mix-bar-float-msg"><div class="title"></div><ul></ul></div>'
             ).css({
                 top: 0,
                 left: 0
