@@ -158,7 +158,7 @@
 
             if (options.data.bar.length) {
                 //计算柱状图的宽度
-                barWidth = (offsetWidth - (barWidth * options.axis.x.length - 1) ) / (options.bar.type == 1 ? 3 : (options.data.bar[0].length + 1));
+                barWidth = options.bar.width ? (options.bar.width * deviceRatio) : ((offsetWidth - (barWidth * options.axis.x.length - 1) ) / (options.bar.type == 1 ? 3 : (options.data.bar[0].length + 1)));
                 if (options.isDebug) {
                     console.log('柱状图宽度：' + barWidth);
                 }
@@ -237,12 +237,12 @@
                                     x: barStartX + offsetWidth * i,
                                     y: barStartY - (bottom_left.y - top_left.y) *
                                     ((options.data.bar[i][j] > options.bar.max || options.data.bar[i][j] < options.bar.min) ?
-                                        options.bar.min : options.data.bar[i][j]) / sum / diff
+                                        options.bar.min : options.data.bar[i][j]) / sum
                                 }, {
                                     x: barStartX + offsetWidth * i + barWidth,
                                     y: barStartY - (bottom_left.y - top_left.y) *
                                     ((options.data.bar[i][j] > options.bar.max || options.data.bar[i][j] < options.bar.min) ?
-                                        options.bar.min : options.data.bar[i][j]) / sum / diff
+                                        options.bar.min : options.data.bar[i][j]) / sum
                                 }, {
                                     x: barStartX + offsetWidth * i + barWidth,
                                     y: barStartY
@@ -250,6 +250,7 @@
                             }
                             bars.push(tmp);
                         }
+                        console.log(bars);
                         break;
                 }
             }
@@ -428,6 +429,7 @@
 
         function canvasClick(pos) {
             var i;
+            var j;
             clearCanvas();
             drawBaseArea();
             drawDataArea();
@@ -453,11 +455,14 @@
                         + '</span></li>';
                 }
             }
+
             for (i = 0; i < options.legends.bar.length; i++) {
-                if (options.data.bar[i]) {
-                    child += '<li><span class="icon" style="background:' + options.colors.bar[i] + '"></span><span>'
-                        + options.legends.bar[i] + '：'
-                        + ((options.data.bar[pos][i] < options.bar.min || options.data.bar[pos][i] > options.bar.max) ? options.bar.defaultValue : options.data.bar[pos][i] + (options.units.bar[i] || ''))
+                j = options.bar.type == 1 ? options.legends.bar.length-1 - i : i;
+
+                if (options.data.bar[j]) {
+                    child += '<li><span class="icon" style="background:' + options.colors.bar[j] + '"></span><span>'
+                        + options.legends.bar[j] + '：'
+                        + ((options.data.bar[pos][j] < options.bar.min || options.data.bar[pos][j] > options.bar.max) ? options.bar.defaultValue : options.data.bar[pos][j] + (options.units.bar[j] || ''))
                         + '</span></li>';
                 }
             }
@@ -522,11 +527,11 @@
             context = element[0].getContext('2d');
 
             if (options.bar.width) {
+                var o_width = element.width();
                 var width = (options.bar.width * ( options.bar.type == 1 ? 3 : (options.data.bar[0].length + 1)) +
                     options.bar.gap * (options.bar.type == 1 ? 0 : (options.data.bar[0].length - 1))) * options.data.bar.length;
-                console.log(width);
                 element.css({
-                    width: width
+                    width: width > o_width ? width : o_width
                 })
             }
 
