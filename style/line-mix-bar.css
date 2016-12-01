@@ -80,6 +80,7 @@
 
 .line-mix-bar-float-msg li {
     display: block;
+    text-align: left;
     min-width: 33.3333%;
     color: #FFFFFF;
     font-size: 1.2em;

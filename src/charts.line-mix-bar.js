@@ -214,7 +214,7 @@
                                 if (options.data.bar[i][j] > options.bar.max || options.data.bar[i][j] < options.bar.min) {
                                     console.warn('柱状图数值超出范围！[' + i + '][' + j + ']');
                                 }
-                                sum += options.data.bar[i][j];
+                                sum += parseFloat(options.data.bar[i][j]);
                             }
                             if (sum == 0) {
                                 options.data.bar[i].push(options.bar.max);
@@ -292,9 +292,6 @@
             }
             //绘制坐标轴
             window.ChartUtils.drawLine(context, [{
-                x: top_left.x,
-                y: top_left.y
-            }, {
                 x: bottom_left.x,
                 y: bottom_left.y
             }, {
@@ -546,7 +543,7 @@
             element.attr('width', eWidth);
 
             //给canvas添加符元素
-            $parent = element.wrap('<div class="line-mix-bar"><div style="overflow: auto"><div class="line-mix-bar-canvas"></div></div></div>').parents('.line-mix-bar');
+            $parent = element.wrap('<div class="line-mix-bar"><div style="overflow: auto;text-align: center;"><div class="line-mix-bar-canvas"></div></div></div>').parents('.line-mix-bar');
             //添加图例
             var $legends = $(
                 '<div><ul  class="line-mix-bar-legends"></ul></div>'
