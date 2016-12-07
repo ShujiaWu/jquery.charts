@@ -455,8 +455,7 @@
 
             for (i = 0; i < options.legends.bar.length; i++) {
                 j = options.bar.type == 1 ? options.legends.bar.length-1 - i : i;
-
-                if (options.data.bar[j]) {
+                if (options.data.bar[pos]) {
                     child += '<li><span class="icon" style="background:' + options.colors.bar[j] + '"></span><span>'
                         + options.legends.bar[j] + '：'
                         + ((options.data.bar[pos][j] < options.bar.min || options.data.bar[pos][j] > options.bar.max) ? options.bar.defaultValue : options.data.bar[pos][j] + (options.units.bar[j] || ''))

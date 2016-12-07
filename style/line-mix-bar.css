@@ -72,7 +72,8 @@
 
 .line-mix-bar-float-msg .title {
     color: #FFFFFF;
-    font-size: 1.2em
+    font-size: 1.2em;
+    text-align: left;
 }
 
 .line-mix-bar-float-msg ul {
