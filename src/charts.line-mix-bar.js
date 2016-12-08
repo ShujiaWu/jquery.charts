@@ -589,6 +589,7 @@
             clearCanvas();
             drawBaseArea();
             drawDataArea();
+            $floatMsg.find('ul').empty();
             $floatMsg.css({
                 opacity: 0,
                 top: 0,
