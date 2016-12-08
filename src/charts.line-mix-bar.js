@@ -585,6 +585,16 @@
             drawing();
         };
 
+        exports.redraw = function () {
+            clearCanvas();
+            drawBaseArea();
+            drawDataArea();
+            $floatMsg.css({
+                opacity: 0,
+                top: 0,
+                left: 0
+            });
+        };
         return exports;
     }
 
