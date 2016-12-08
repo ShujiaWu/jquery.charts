@@ -15,12 +15,9 @@
 }
 
 .line-mix-bar-legends {
-    display: -webkit-flex;
-    display: flex;
     width: 90%;
-    -webkit-flex-wrap: wrap;
-    flex-wrap: wrap;
     margin: 10px auto 0 auto;
+    text-align: center;
 }
 
 .line-mix-bar-canvas {
@@ -31,8 +28,6 @@
 
 .line-mix-bar-legends li {
     display: inline-block;
-    -webkit-flex: 1;
-    flex: 1;
     min-width: 33.3333%;
     color: #999999;
     font-size: 1.2em;
